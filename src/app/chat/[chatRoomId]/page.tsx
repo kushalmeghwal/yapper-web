@@ -58,7 +58,7 @@ export default function ChatPage() {
           },
           onChatHistory: (msgs) => {
             setMessages(
-              msgs.map((m: any) => ({
+              msgs.map((m) => ({
                 senderId: m.senderId,
                 message: m.message,
                 timestamp: new Date(m.timestamp),

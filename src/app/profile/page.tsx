@@ -1,7 +1,7 @@
 // src/app/profile/page.tsx
 "use client";
 
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { socketService } from "@/services/socketServices";
@@ -101,13 +101,13 @@ export default function ProfilePage() {
           <h1 className="text-3xl font-bold text-purple-700">Edit Your Profile</h1>
 
           <div className="grid grid-cols-2 gap-6">
-            <InputField label="Nickname" value={profile.nickname} onChange={(v: any) => setProfile((p) => ({ ...p, nickname: v }))} />
-            <InputField label="Username" value={profile.username} onChange={(v: any) => setProfile((p) => ({ ...p, username: v }))} />
-            <InputField label="Age" value={profile.age} onChange={(v: any) => setProfile((p) => ({ ...p, age: v }))} />
-            <InputField label="Passion" value={profile.passion} onChange={(v: any) => setProfile((p) => ({ ...p, passion: v }))} />
-            <InputField label="Job" value={profile.job} onChange={(v: any) => setProfile((p) => ({ ...p, job: v }))} />
-            <InputField label="Hobbies" value={profile.hobbies} onChange={(v: any) => setProfile((p) => ({ ...p, hobbies: v }))} />
-            <InputField label="Bio" value={profile.bio} onChange={(v: any) => setProfile((p) => ({ ...p, bio: v }))} multiline />
+            <InputField label="Nickname" value={profile.nickname} onChange={(v: string) => setProfile((p) => ({ ...p, nickname: v }))} />
+            <InputField label="Username" value={profile.username} onChange={(v: string) => setProfile((p) => ({ ...p, username: v }))} />
+            <InputField label="Age" value={profile.age} onChange={(v: string) => setProfile((p) => ({ ...p, age: v }))} />
+            <InputField label="Passion" value={profile.passion} onChange={(v: string) => setProfile((p) => ({ ...p, passion: v }))} />
+            <InputField label="Job" value={profile.job} onChange={(v: string) => setProfile((p) => ({ ...p, job: v }))} />
+            <InputField label="Hobbies" value={profile.hobbies} onChange={(v: string) => setProfile((p) => ({ ...p, hobbies: v }))} />
+            <InputField label="Bio" value={profile.bio} onChange={(v: string) => setProfile((p) => ({ ...p, bio: v }))} multiline />
           </div>
 
           <div className="flex gap-4 mt-6">
@@ -130,7 +130,7 @@ export default function ProfilePage() {
   );
 }
 
-function InputField({ label, value, onChange, multiline = false }: any) {
+function InputField({ label, value, onChange, multiline = false }: Record<string, any>) {
   return (
     <div className="flex flex-col">
       <label className="text-sm font-medium text-gray-700 mb-1">{label}</label>

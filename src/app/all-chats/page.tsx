@@ -14,7 +14,7 @@ interface RecentChat {
 
 export default function AllChatsPage() {
   const router = useRouter();
-  const [userId, setUserId] = useState("");
+  // const [userId, setUserId] = useState("");
   const [chats, setChats] = useState<RecentChat[]>([]);
   const socketRef = useRef<Socket | null>(null);
 
@@ -31,7 +31,7 @@ export default function AllChatsPage() {
         const data = await res.json();
         if (!mounted) return;
 
-        setUserId(data.userId);
+        // setUserId(data.userId);
 
         const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL!, {
           query: { userId: data.userId },
@@ -50,42 +50,42 @@ export default function AllChatsPage() {
           );
         });
 
-        // Listen for new messages
-        socket.on("newMessage", (msg: any) => {
-          setChats((prev) => {
-            // Update last message of corresponding chat
-            const existing = prev.find(c => c.chatRoomId === msg.chatRoomId);
-            let updatedChats: RecentChat[];
-            if (existing) {
-              updatedChats = prev.map(c =>
-                c.chatRoomId === msg.chatRoomId
-                  ? {
-                      ...c,
-                      lastMessage: msg.message,
-                      lastMessageTime: msg.timestamp,
-                    }
-                  : c
-              );
-            } else {
-              // New chat
-              updatedChats = [
-                {
-                  chatRoomId: msg.chatRoomId,
-                  receiverId: msg.senderId === data.userId ? msg.receiverId : msg.senderId,
-                  receiverNickname: msg.senderNickname,
-                  lastMessage: msg.message,
-                  lastMessageTime: msg.timestamp,
-                },
-                ...prev,
-              ];
-            }
+        // // Listen for new messages
+        // socket.on("newMessage", (msg: any) => {
+        //   setChats((prev) => {
+        //     // Update last message of corresponding chat
+        //     const existing = prev.find(c => c.chatRoomId === msg.chatRoomId);
+        //     let updatedChats: RecentChat[];
+        //     if (existing) {
+        //       updatedChats = prev.map(c =>
+        //         c.chatRoomId === msg.chatRoomId
+        //           ? {
+        //               ...c,
+        //               lastMessage: msg.message,
+        //               lastMessageTime: msg.timestamp,
+        //             }
+        //           : c
+        //       );
+        //     } else {
+        //       // New chat
+        //       updatedChats = [
+        //         {
+        //           chatRoomId: msg.chatRoomId,
+        //           receiverId: msg.senderId === data.userId ? msg.receiverId : msg.senderId,
+        //           receiverNickname: msg.senderNickname,
+        //           lastMessage: msg.message,
+        //           lastMessageTime: msg.timestamp,
+        //         },
+        //         ...prev,
+        //       ];
+        //     }
 
-            // Sort by lastMessageTime descending
-            return updatedChats.sort(
-              (a, b) => new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime()
-            );
-          });
-        });
+        //     // Sort by lastMessageTime descending
+        //     return updatedChats.sort(
+        //       (a, b) => new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime()
+        //     );
+        //   });
+        // });
 
         socket.on("match-found", ({ chatRoomId, receiverId, receiverNickname }) => {
           router.push(`/chat/${chatRoomId}?receiverId=${receiverId}&receiverNickname=${receiverNickname}`);

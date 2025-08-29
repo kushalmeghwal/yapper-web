@@ -57,8 +57,8 @@ export default function GoogleLoginPage() {
 
       // ✅ No localStorage — JWT is now inside HttpOnly cookie
       router.replace("/search");
-    } catch (err: any) {
-      alert(`Google Sign-In Failed: ${err.message}`);
+    } catch (err) {
+      alert(`Google Sign-In Failed: ${err}`);
       console.error(err);
     } finally {
       setLoading(false);
